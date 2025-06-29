@@ -10,7 +10,7 @@
 ## VAE (Variational Autoencoder)
 > VAE 모델이란?
 
-Variational Autoencoder (VAE)는 데이터의 잠재 공간을 학습하고, 고차원 데이터를 저차원으로 압축하여 새로운 데이터를 생성하는 딥러닝 모델입니다. VAE는 주로 생성 모델로 사용되며, 이미지 생성, 텍스트 생성 등 다양한 응용 분야에 활용됩니다.
+Variational Autoencoder (VAE)는 데이터의 잠재 공간을 학습하여, **고차원 데이터를 저차원 잠재 공간(Latent Space)으로 압축**하고, 이 공간을 통해 새로운 데이터를 생성하는 비지도 학습(Unsupervised Learning) 딥러닝 모델입니다. VAE는 주로 생성 모델로 사용되며, 이미지 생성, 텍스트 생성 등 다양한 응용 분야에 활용됩니다.
 </br>
 
 ## 구조
@@ -25,27 +25,32 @@ Variational Autoencoder (VAE)는 데이터의 잠재 공간을 학습하고, 고
    - 디코더는 인코더가 생성한 잠재 변수를 기반으로 데이터를 생성
 
 
-## 작동 원리
-> VAE는 다음과 같은 과정을 통해 작동합니다:
+## 동작 원리
+> VAE는 다음과 같은 과정을 통해 동작합니다:
 
 <img src="https://github.com/user-attachments/assets/6e69ac45-a82b-4956-af1b-1fc80340698c" width="600px"/>
 
 
 1. **입력 데이터 인코딩**
    -  인코더는 입력 데이터를 잠재 공간의 확률 분포로 변환
-   -  이 과정에서 평균과 분산을 추정
+   -  이 과정에서 평균(μ)과 분산(σ^2)을 추정
   
 2. **샘플링**
    - 추정된 평균과 분산을 사용하여 잠재 변수를 샘플링
-   -  Nosie를 부여
-   -  Reparemeterization Trick
+   -  Nosie 부여 : 여러 가능한 출력을 생성하여 다양한 잠재 공간을 생성, 일반화된 특성 학습을 유도
+   -  Reparemeterization Trick : 일반 샘플링에서 역전파(Backpropagaion)를 할 수 없는 문제를 해결
 
 3. **디코딩**
    - 샘플링된 잠재 변수를 디코더에 입력하여 새로운 데이터를 생성
 
 4. **손실 함수**
-   - 재구성 손실(Reconstruction Loss)
-   - KL 발산(Kullback-Leibler Divergence)
+   - 재구성 손실(Reconstruction Loss) :
+       - 인코더의 원래 입력 x와 디코더의 재구성된 출력 x'의 차이를 최소화
+       - MSE(평균제곱오차) 사용
+       - 데이터 복원 성능 향상
+   - KL 발산(Kullback-Leibler Divergence) :
+       - 두 확률분포 p, q의 차이를 계산
+       - 잠재 공간이 고르게 분포하도록 유도
 
 ## 응용 분야
 - **이미지 생성**: VAE는 이미지 생성 및 변환에 널리 사용
